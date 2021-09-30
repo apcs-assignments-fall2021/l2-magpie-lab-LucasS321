@@ -1,3 +1,5 @@
+import java.util.Locale;
+
 /**
  * A program to carry on conversations with a human user.
  * This is the initial version that:  
@@ -31,9 +33,39 @@ public class Magpie
     public String getResponse(String statement)
     {
         String response = "";
-        if (statement.indexOf("no") >= 0)
+        if (findWord(statement,"no") >= 0)
         {
             response = "Why so negative?";
+        } else if (statement.toLowerCase(Locale.ROOT).indexOf("i want to") >= 0 ) {
+            response = transformIWantToStatement(statement);
+        }else if (statement.toLowerCase(Locale.ROOT).indexOf("i want ") >= 0) {
+            response = transformIWantStatement(statement);
+        }else if (statement.toLowerCase(Locale.ROOT).indexOf("do you ") >= 0 && statement.toLowerCase(Locale.ROOT).indexOf(" me") >= 0) {
+            response = transformIWantStatement(statement);
+        }else if (statement.toLowerCase(Locale.ROOT).indexOf("i ") >= 0 && statement.toLowerCase(Locale.ROOT).indexOf(" you") >= 0) {
+            response = transformIYouStatement(statement);
+        }else
+        if (findWord(statement,"dog") >= 0 || statement.indexOf("cat") >= 0)
+        {
+            response = "Tell me more about your pets";
+        } else
+        if (findWord(statement,"Nathan") >= 0)
+        {
+            response = "Best tech support guy ever!";
+        }
+        else
+        if (findWord(statement,"lazy") >= 0)
+        {
+            response = "Ur so cool :)";
+        }else
+        if (findWord(statement,"use") >= 0)
+        {
+            response = "wtf why";
+        }
+        else
+        if (statement.trim().length() == 0)
+        {
+            response = "Why you bully me, tell me something :(.";
         }
         else if (statement.indexOf("mother") >= 0
                 || statement.indexOf("father") >= 0
@@ -55,7 +87,7 @@ public class Magpie
      */
     public String getRandomResponse()
     {
-        final int NUMBER_OF_RESPONSES = 4;
+        final int NUMBER_OF_RESPONSES = 6;
         double r = Math.random();
         int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
         String response = "";
@@ -76,6 +108,14 @@ public class Magpie
         {
             response = "You don't say.";
         }
+        else if (whichResponse == 4)
+        {
+            response = "I don't care about what your saying. LEAVE ME ALONE!";
+        }
+        else if (whichResponse == 5)
+        {
+            response = "Aww really, so cute! I love random responses";
+        }
     
         return response;
     }
@@ -90,10 +130,20 @@ public class Magpie
     // The method returns the index of the first character in word
     // if it is found, and returns -1 otherwise. 
     public int findWord(String str, String word) {
-        return -1;
+
+
+        int index = str.toLowerCase(Locale.ROOT).indexOf(word.toLowerCase(Locale.ROOT));
+
+        if (!(index+word.length() == str.length()) && ((str.charAt(index+word.length()) > 'a' && str.charAt(index+word.length()) < 'z') || (str.charAt(index+word.length()) > 'A' && str.charAt(index+word.length()) < 'Z'))) {
+            return -1;
+        }
+        if (!(index-1 == -1) && ((str.charAt(index-1) > 'a' && str.charAt(index-1) < 'z') || (str.charAt(index-1) > 'A' && str.charAt(index-1) < 'Z'))) {
+            return -1;
+        }
+        return index;
     }
 
-    
+
     // We will work on the following methods later!
 
     /**
@@ -105,7 +155,7 @@ public class Magpie
     public String transformIWantStatement(String statement)
     {
         //your code here
-        return "";
+        return "Would you really be happy if you had "+statement.toLowerCase(Locale.ROOT).replaceAll("i want ","")+"?";
     }
 
     /**
@@ -117,7 +167,7 @@ public class Magpie
     public String transformIYouStatement(String statement)
     {
         //your code here
-        return "";
+        return "Why do you "+statement.toLowerCase(Locale.ROOT).replace("i ", "").replaceAll(" you","")+" me?";
     }
 
     /**
@@ -129,7 +179,7 @@ public class Magpie
     public String transformIWantToStatement(String statement)
     {
         // your code here
-        return "";
+        return "What would it mean to "+statement.toLowerCase(Locale.ROOT).replaceAll("i want to ","")+"?";
     }
 
 
@@ -144,6 +194,6 @@ public class Magpie
     public String transformYouMeStatement(String statement)
     {
         // your code here
-        return "";
+        return "What makes you think that I "+statement.toLowerCase(Locale.ROOT).replace("do you ", "").replaceAll(" me","")+" you?";
     }
 }
