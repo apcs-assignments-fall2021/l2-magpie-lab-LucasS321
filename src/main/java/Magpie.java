@@ -38,7 +38,11 @@ public class Magpie
             response = "Why so negative?";
         } else if (statement.toLowerCase(Locale.ROOT).indexOf("i want to") >= 0 ) {
             response = transformIWantToStatement(statement);
-        }else if (statement.toLowerCase(Locale.ROOT).indexOf("i want ") >= 0) {
+        }
+        else if (statement.toLowerCase(Locale.ROOT).indexOf("i need") >= 0 ) {
+            response = transformINeedStatement(statement);
+        }
+        else if (statement.toLowerCase(Locale.ROOT).indexOf("i want ") >= 0) {
             response = transformIWantStatement(statement);
         }else if (statement.toLowerCase(Locale.ROOT).indexOf("do you ") >= 0 && statement.toLowerCase(Locale.ROOT).indexOf(" me") >= 0) {
             response = transformIWantStatement(statement);
@@ -57,6 +61,14 @@ public class Magpie
         if (findWord(statement,"lazy") >= 0)
         {
             response = "Ur so cool :)";
+        } else
+        if (findWord(statement,"house") >= 0)
+        {
+            response = "What color is your house?";
+        }else
+        if (findWord(statement,"candy") >= 0)
+        {
+            response = "I like candy!!!!";
         }else
         if (findWord(statement,"use") >= 0)
         {
@@ -137,7 +149,7 @@ public class Magpie
         if (!(index+word.length() == str.length()) && ((str.charAt(index+word.length()) > 'a' && str.charAt(index+word.length()) < 'z') || (str.charAt(index+word.length()) > 'A' && str.charAt(index+word.length()) < 'Z'))) {
             return -1;
         }
-        if (!(index-1 == -1) && ((str.charAt(index-1) > 'a' && str.charAt(index-1) < 'z') || (str.charAt(index-1) > 'A' && str.charAt(index-1) < 'Z'))) {
+        if (!(index-1 == -1 || index-1 == -2) && ((str.charAt(index-1) > 'a' && str.charAt(index-1) < 'z') || (str.charAt(index-1) > 'A' && str.charAt(index-1) < 'Z'))) {
             return -1;
         }
         return index;
@@ -156,6 +168,11 @@ public class Magpie
     {
         //your code here
         return "Would you really be happy if you had "+statement.toLowerCase(Locale.ROOT).replaceAll("i want ","")+"?";
+    }
+    public String transformINeedStatement(String statement)
+    {
+        //your code here
+        return "Do you really need "+statement.toLowerCase(Locale.ROOT).replaceAll("i need ","")+"?";
     }
 
     /**
